@@ -1,22 +1,21 @@
 class Person
-	attr_reader :name, :cash
+	attr_reader :name
+	attr_accessor :cash
 	def initialize(name, cash)
 		@name = name
-		@cash = cash #create hash here?
+		@cash = cash
 		puts "Hi #{name}, you have $#{cash}."
 	end
 end
 
 class Bank
 	attr_reader :bank
+	attr_accessor :bank_balance
 	def initialize(bank)
 		@users = Hash.new
-		@user_cash = Hash.new(0) #probably not correct
 		@bank = bank
+		@bank_balance = 0
 		puts "#{bank} bank has been created."
-	end
-	def establish_cash #probably not correct
-		@user_cash[person.name] = person.cash
 	end
 	def open_account(person)
 		@users[person.name] = 0
@@ -24,18 +23,24 @@ class Bank
 	end
 	def deposit(person, amount)
 		@users[person.name] += amount
-		@user_cash[person.name] -= amount #not working
-		puts "#{person.name} deposited $#{amount} to #{bank}. #{person.name} has $#{person.cash}. #{bank} has $"
+		person.cash -= amount
+		@bank_balance += amount
+		puts "#{person.name} deposited $#{amount} to #{bank}. #{person.name} has $#{person.cash}. #{person.name}'s #{bank} account has $#{@users[person.name]}."
 	end
 	def withdraw(person, amount)
 		@users[person.name] -= amount
-		@user_cash[person.name] += amount #not working
-		puts "#{person.name} withdrew $#{amount} from #{bank}. #{person.name} has $#{person.cash}. #{bank} has $"
+		person.cash += amount
+		@bank_balance -= amount
+		puts "#{person.name} withdrew $#{amount} from #{bank}. #{person.name} has $#{person.cash}. #{person.name}'s #{bank} account has $#{@users[person.name]}."
 	end
 	def transfer(person, other_bank, amount)
-		@users[person.name] -= amount
-		other_bank.deposit(person, amount) #need to rewrite so it doesn't print out the deposit statement
-		puts "#{person.name} transferred $#{amount} from #{bank} to #{other_bank.bank}."
+		@users[person.name] -= amount #need this for other_bank, not tracking other_bank account balance at the moment (only total balance)
+		@bank_balance -= amount
+		other_bank.bank_balance += amount
+		puts "#{person.name} transferred $#{amount} from #{bank} to #{other_bank.bank}. #{bank} account has #{@users[person.name]} and #{other_bank.bank} account has #{other_bank.bank_balance}."
+	end
+	def total_cash_in_bank
+		puts "#{bank} has $#{bank_balance} in the bank."
 	end
 end
 
@@ -51,4 +56,7 @@ chase.deposit(me, 200)
 chase.deposit(friend1, 300)
 chase.withdraw(me, 50)
 chase.transfer(me, wells_fargo, 100)
+puts chase.total_cash_in_bank
+puts wells_fargo.total_cash_in_bank
+
 
