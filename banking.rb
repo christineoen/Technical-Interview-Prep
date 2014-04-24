@@ -20,10 +20,14 @@ class Bank
 		puts "#{person.name}, thanks for opening an account at #{bank}."
 	end
 	def deposit(person, amount)
-		@users[person.name] += amount
-		person.cash -= amount
-		@bank_balance += amount
-		puts "#{person.name} deposited $#{amount} to #{bank}. #{person.name} has $#{person.cash}. #{person.name}'s #{bank} account has $#{@users[person.name]}."
+		if person.cash < amount
+			puts "#{person.name} doesn't have enough cash to deposit $#{amount}."
+		else
+			@users[person.name] += amount
+			person.cash -= amount
+			@bank_balance += amount
+			puts "#{person.name} deposited $#{amount} to #{bank}. #{person.name} has $#{person.cash}. #{person.name}'s #{bank} account has $#{@users[person.name]}."
+		end
 	end
 	def withdraw(person, amount)
 		@users[person.name] -= amount
@@ -35,7 +39,7 @@ class Bank
 		@users[person.name] -= amount #need this for other_bank, not tracking other_bank account balance at the moment (only total balance)
 		@bank_balance -= amount
 		other_bank.bank_balance += amount
-		puts "#{person.name} transferred $#{amount} from #{bank} to #{other_bank.bank}. #{bank} account has #{@users[person.name]} and #{other_bank.bank} account has #{other_bank.bank_balance}."
+		puts "#{person.name} transferred $#{amount} from #{bank} to #{other_bank.bank}. #{bank} account has $#{@users[person.name]} and #{other_bank.bank} account has $#{other_bank.bank_balance}."
 	end
 	def total_cash_in_bank
 		puts "#{bank} has $#{bank_balance} in the bank."
@@ -54,6 +58,7 @@ chase.deposit(me, 200)
 chase.deposit(friend1, 300)
 chase.withdraw(me, 50)
 chase.transfer(me, wells_fargo, 100)
+chase.deposit(me, 5000)
 puts chase.total_cash_in_bank
 puts wells_fargo.total_cash_in_bank
 
