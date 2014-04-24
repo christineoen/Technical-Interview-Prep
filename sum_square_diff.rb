@@ -10,4 +10,4 @@ sum = 0
 	square_sum = sum**2
 end
 
-puts square_sum - sum_squares
+puts square_sum - sum_square

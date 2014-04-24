@@ -1,6 +1,5 @@
 class Person
-	attr_reader :name
-	attr_accessor :cash
+	attr_reader :name, :cash
 	def initialize(name, cash)
 		@name = name
 		@cash = cash
@@ -9,8 +8,7 @@ class Person
 end
 
 class Bank
-	attr_reader :bank
-	attr_accessor :bank_balance
+	attr_reader :bank, :bank_balance
 	def initialize(bank)
 		@users = Hash.new
 		@bank = bank
