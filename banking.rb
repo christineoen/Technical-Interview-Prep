@@ -30,10 +30,14 @@ class Bank
 		end
 	end
 	def withdraw(person, amount)
-		@users[person.name] -= amount
-		person.cash += amount
-		@bank_balance -= amount
-		puts "#{person.name} withdrew $#{amount} from #{bank}. #{person.name} has $#{person.cash}. #{person.name}'s #{bank} account has $#{@users[person.name]}."
+		if @users[person.name] < amount
+			puts "#{person.name} doesn't have enough money in the account to withdraw $#{amount}."
+		else
+			@users[person.name] -= amount
+			person.cash += amount
+			@bank_balance -= amount
+			puts "#{person.name} withdrew $#{amount} from #{bank}. #{person.name} has $#{person.cash}. #{person.name}'s #{bank} account has $#{@users[person.name]}."
+		end 
 	end
 	def transfer(person, other_bank, amount)
 		@users[person.name] -= amount #need this for other_bank, not tracking other_bank account balance at the moment (only total balance)
@@ -59,6 +63,7 @@ chase.deposit(friend1, 300)
 chase.withdraw(me, 50)
 chase.transfer(me, wells_fargo, 100)
 chase.deposit(me, 5000)
+chase.withdraw(me, 5000)
 puts chase.total_cash_in_bank
 puts wells_fargo.total_cash_in_bank
 
