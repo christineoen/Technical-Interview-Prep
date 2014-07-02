@@ -4,6 +4,9 @@
 		puts x
 	end
 end
+
+How do I make this into one line?
+	
 =end
 
 color_ary = ["red", "blue", "green", "cyan"]
